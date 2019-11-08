@@ -4,10 +4,10 @@ global s;
 s = serial('COM1', 'BaudRate', 9600, 'DataBits', 8,'Parity', 'even', 'StopBits', 2, 'Terminator','CR');
 
     fopen(s);
-    fprintf(s,['1;1;EXECJOVRD 8.0']);   %set default JOVR / OVRD
+    fprintf(s,['1;1;EXECJOVRD 20.0']);   %set default JOVR / OVRD
     pause(0.2);
     
-    fprintf(s,['1;1;EXECOVRD 8.0']);
+    fprintf(s,['1;1;EXECOVRD 20.0']);
     pause(0.2);
     
     fprintf(s,'1;1;RSTALRM');
@@ -33,7 +33,7 @@ s = serial('COM1', 'BaudRate', 9600, 'DataBits', 8,'Parity', 'even', 'StopBits',
         
         
  %Set Joints angles degrees command
-function set_joints_angles(q1, q2 ,q3 ,q4 ,q5 ,q6)   %times 
+function set_joints_angles(q(1), q(2) ,q(3) ,q(4) ,q(5) ,q(6))   %times 
     
     %for i=1:6
     %eval([genvarname(['Q',num2str(i)]),'=num2str(q(i))'])
@@ -103,7 +103,7 @@ function set_servo(SERVOSTATE)   %SERVOSTATE 'ON' 'OFF' 1 0
       cmd=['1;1;SRV' SERVOSTATE ];
       fprintf(s,cmd);
       
-      fprintf(s,'1;1;EXECACCEL 20, 20');
+      
 %SET CONTROL ON / OFF 
 function set_servo(CONTROLSTATE)   %CONTROLSTATE 'ON' 'OFF' 1 0
 %     if CONTROLSTATE==1

@@ -1,0 +1,1 @@
+function MVR(start_point, transit_point, end_point)     %(STRING)        cmd=['1;1;EXECMVR ' start_point ', ' transit_point ', ' end_point];        SendCmd(cmd);%kinite se tokso kuklou pou orizetai apo ta parapanw shmeia}
