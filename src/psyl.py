@@ -1,12 +1,14 @@
 # load('RV2A.mat');
-
+#%%
+import serial
+import time
 # matlab code from psy_connect.m 
 # 
 #%%
-import melfa_robot as mr 
+from  melfa_robot import melfa_robot
 #%%
 
-mr0 = mr.melfa_robot(portname='com3')
+mr0 = melfa_robot(portname='com5')
 #%%
 mr0.get_position()
 print(mr0.ser.read(mr0.ser.in_waiting))
@@ -14,7 +16,15 @@ print(mr0.ser.read(mr0.ser.in_waiting))
 
 # OPENCOM(1)  %connects to selected COM
 # CNTL(1)     % Enables Controller/ Must be in auto mode
-mr0.cntl(True)
+mr0.cntl(1)
+#%%
+mr0.srv('On') 
+
+#%%
+mr0.mvj([0,0,90,0,40,0])
+#%%
+mr0.mvj([0,0,90,0,40,0])
+#%%
 
 # SAFEMODE()    % Enters SafeMode Speeds
 mr0.safemode()

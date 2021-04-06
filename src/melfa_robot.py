@@ -42,7 +42,7 @@ class melfa_robot():
             statestr='ON'
         else:
             statestr='OFF'
-        self.sent_to_ser('1;1;CNTL {}'.format(statestr))
+        self.sent_to_ser('1;1;CNTL{}'.format(statestr))
 
     def safemode(self):
 
@@ -62,7 +62,7 @@ class melfa_robot():
             servo_state='ON'
         elif servo_state==0 or not servo_state:
             servo_state='OFF'
-        cmd='1;1;SRV {}'.format( servo_state.upper() )
+        cmd='1;1;SRV{}'.format( servo_state.upper() )
         self.sent_to_ser(cmd)
 
     def ovrd(self, val:float) -> bool:
@@ -89,13 +89,17 @@ class melfa_robot():
         else:
             print('LATHOS in Jog speed')
         return ex
+    def mvj(self, coords_list):
+        coords = ""
+        for item in coords_list:
+            coords = coords+"{:.3f}, ".format(item)
+        coords = coords[:-2]
+        command_string = '1;1;EXEC JMOV = ({})'.format(coords)
+        self.sent_to_ser(command_string)
+        self.sent_to_ser('1;1;EXECMOV JMOV')
+        return command_string
 
     def move_abs(self, Pabs):
-        # command_string = '{}'.format(1).encode()
-        # self.ser.write(command_string)
-        pass
-
-    def move_rel(self, dx=0, dy=0, dz=0):
         # command_string = '{}'.format(1).encode()
         # self.ser.write(command_string)
         pass
@@ -136,3 +140,4 @@ class melfa_robot():
         # command_string = '{}'.format(1).encode()
         # self.ser.write(command_string)
         pass
+# %%
