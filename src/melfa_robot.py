@@ -1,7 +1,7 @@
-#%%
+
 import serial 
 import time
-#%%
+
 class melfa_robot():
 
     def __init__(self, portname:str=None):
@@ -19,7 +19,6 @@ class melfa_robot():
         ''' close serial port
         '''
         self.ser.close()
-
 
     def sent_to_ser(self, cmdstr):
         '''
@@ -89,6 +88,7 @@ class melfa_robot():
         else:
             print('LATHOS in Jog speed')
         return ex
+
     def mvj(self, coords_list):
         coords = ""
         for item in coords_list:
@@ -97,6 +97,16 @@ class melfa_robot():
         command_string = '1;1;EXEC JMOV = ({})'.format(coords)
         self.sent_to_ser(command_string)
         self.sent_to_ser('1;1;EXECMOV JMOV')
+        return command_string
+
+    def mov(self, coords_list):
+        coords = ""
+        for item in coords_list:
+            coords = coords+"{:.3f}, ".format(item)
+        coords = coords[:-2]
+        command_string = '1;1;EXEC PMOV = ({})'.format(coords)
+        self.sent_to_ser(command_string)
+        self.sent_to_ser('1;1;EXECMOV PMOV')
         return command_string
 
     def move_abs(self, Pabs):
@@ -115,13 +125,14 @@ class melfa_robot():
         pass
 
     def get_position(self):
-        command_string = '1;9;PPOSF'
-        self.sent_to_ser(command_string)
+        cmd = '1;9;PPOSF'
+        reply=self.sent_to_ser(cmd)
+        return reply
         
-    def get_state(self, state):
-        # command_string = '{}'.format(1).encode()
-        # self.ser.write(command_string)
-        pass
+    def get_state(self):
+        cmd='1;1;DSTATE'
+        reply=self.sent_to_ser(cmd)
+        return reply
 
     def set_accel(self, accel, deccel=None):
         # function ex=ACCEL(accel,varargin)
@@ -129,11 +140,12 @@ class melfa_robot():
         deccel=accel if deccel is None else deccel
         ex = False
         if accel>0 and accel<=400 and deccel>0 and deccel<=400:
-            cmd='1;1;EXECACCEL {} {}'.format(accel, deccel) ;
+            cmd='1;1;EXECACCEL {},{}'.format(accel, deccel) ;
+            print(cmd)
             reply= self.sent_to_ser(cmd)
             ex='QoK' in reply
         else:
-             disp('LATHOS ACCEL')
+             print('LATHOS ACCEL')
         return ex
 
     def set_velocity(self, velocity):

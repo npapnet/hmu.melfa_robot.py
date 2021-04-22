@@ -8,7 +8,7 @@ import time
 from  melfa_robot import melfa_robot
 #%%
 
-mr0 = melfa_robot(portname='com5')
+mr0 = melfa_robot(portname='COM4')
 #%%
 mr0.get_position()
 print(mr0.ser.read(mr0.ser.in_waiting))
@@ -18,11 +18,23 @@ print(mr0.ser.read(mr0.ser.in_waiting))
 # CNTL(1)     % Enables Controller/ Must be in auto mode
 mr0.cntl(1)
 #%%
-mr0.srv('On') 
+#mr0.RSTALRM()
+mr0.srv('On')
+#mr0.srv(0)
+mr0.ovrd(20)
+mr0.set_accel(20)
+#%%
+#a=mr0.get_state()
+#print(a)
+P1=[350,0,500,179,0,179]
+P2=[350,0,400,179,0,179]
+#
+mr0.mov(P2)
+mr0.mov(P1)
 
+#mr0.mvj([0,0,90,0,90,0])
 #%%
-mr0.mvj([0,0,90,0,40,0])
-#%%
+'''
 mr0.mvj([0,0,90,0,40,0])
 #%%
 
@@ -59,4 +71,6 @@ mr0.close()
 
 # % 
 # SRV(0)
-# CLOSECOM 
+ CLOSECOM 
+ 
+ '''
